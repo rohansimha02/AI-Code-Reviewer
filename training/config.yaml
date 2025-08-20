@@ -1,0 +1,63 @@
+# Training Configuration for AI Code Reviewer
+
+# Model Configuration
+base_model: "microsoft/codebert-base"
+num_labels: 2
+max_length: 512
+
+# Training Configuration
+seed: 42
+batch_size: 8  # Increased for MPS
+learning_rate: 5e-5  # Increased for better learning
+epochs: 15  # More epochs for convergence
+eval_steps: 100  # Keep same
+warmup_ratio: 0.1
+weight_decay: 0.01
+grad_accum_steps: 1  # Reduced since batch_size increased
+save_steps: 100
+logging_steps: 25
+lr_scheduler_type: "cosine"  # Better for convergence
+
+# Data Configuration
+train_path: "data/processed/train_with_synthetic.parquet"
+val_path: "data/processed/val.parquet"
+test_path: "data/processed/test.parquet"
+quixbugs_path: "data/processed/quixbugs_eval.parquet"
+
+# Output Configuration
+save_dir: "serving/model_store/best_model"
+output_dir: "training/outputs"
+logging_dir: "training/logs"
+
+# Device Configuration
+device: "mps"  # Same as last time
+
+# Evaluation Configuration
+eval_metrics: ["accuracy", "precision", "recall", "f1"]
+metric_for_best_model: "eval_f1_macro"
+greater_is_better: true
+
+# Early Stopping
+early_stopping_patience: 8  # More patience for convergence
+early_stopping_threshold: 0.001
+
+# Class Weights (if needed for imbalanced data)
+use_class_weights: true  # Enable class weights
+class_weights: [1.0, 2.0]  # [clean, buggy] - give more weight to buggy class
+
+# Tokenizer Configuration
+truncation: true
+padding: true
+return_tensors: "pt"
+
+# Model Card Information
+model_card:
+  name: "AI Code Reviewer"
+  description: "CodeBERT-based classifier for detecting buggy vs clean Python code"
+  version: "1.0.0"
+  author: "AI Code Reviewer Team"
+  license: "MIT"
+  dataset: "BugsInPy + QuixBugs"
+  base_model: "microsoft/codebert-base"
+  task: "sequence-classification"
+  language: "python"
