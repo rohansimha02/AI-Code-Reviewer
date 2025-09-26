@@ -1,6 +1,6 @@
 # AI Code Reviewer
 
-A production-style repository that fine-tunes a pretrained CodeBERT classifier (PyTorch + Hugging Face) to detect buggy vs clean code. The system is trained primarily on BugsInPy with QuixBugs as a small validation set, providing a minimal but polished FastAPI inference service and a Streamlit demo where users can paste Python code and get predictions.
+A project repository that fine-tunes a pretrained CodeBERT classifier (PyTorch + Hugging Face) to detect buggy vs clean code. The system is trained primarily on BugsInPy with QuixBugs as a small validation set, providing a minimal but polished FastAPI inference service and a Streamlit demo where users can paste Python code and get predictions.
 
 ## Dataset
 
